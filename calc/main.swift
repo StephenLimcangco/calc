@@ -11,22 +11,33 @@ import Foundation
 var args = ProcessInfo.processInfo.arguments
 args.removeFirst() // remove the name of the program
 
-var string: [String] = args
+var inputString: [String] = args
 
 var numberArray: [Int] = []
 var operatorArray: [String] = []
 
-for i in 0..<string.count {
+for i in 0..<inputString.count {
     if (isNumber(index: i)){
-        numberArray.append(Int(string[i])!)
+        numberArray.append(Int(inputString[i])!)
     }
 }
 
  func isNumber(index: Int) -> Bool {
-    if ((Int(string[index])) != nil){
+    if ((Int(inputString[index])) != nil){
         return true
     } else {
         return false
+    }
+}
+
+func isOperator(index:Int) -> Bool {
+    switch inputString[index]{
+    case "+", "-", "x", "/", "%":
+        return true
+        
+    default:
+         return false
+        
     }
 }
 
@@ -36,9 +47,9 @@ for i in 0..<string.count {
 //let no2 = args[2]; // Sample Code Only! Update Required!
 
 // Initialize a Calculator object
-let calculator = Calculator();
+let calculator = Calculator(numberArray: numberArray, operatorArray: operatorArray);
 
 // Calculate the result
-let result = calculator.add(no1: 1, no2: 1);
+let result = calculator.Add(no1: 1, no2: 1);
 
 print(result)

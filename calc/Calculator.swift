@@ -10,28 +10,63 @@ import Foundation
 
 class Calculator {
     
-    /// For multi-step calculation, it's helpful to persist existing result
-    var currentResult = 0;
+    var numberArray: [Int] = []
+    var operatorArray: [String] = []
     
-    /// Perform Addition
-    ///
-    /// - Author: Jacktator
-    /// - Parameters:
-    ///   - no1: First number
-    ///   - no2: Second number
-    /// - Returns: The addition result
-    ///
-    /// - Warning: The result may yield Int overflow.
-    /// - SeeAlso: https://developer.apple.com/documentation/swift/int/2884663-addingreportingoverflow
-    func add(no1: Int, no2: Int) -> Int {
-        return no1 + no2;
+    init(numberArray:[Int], operatorArray:[String]){
+        self.numberArray = numberArray
+        self.operatorArray = operatorArray
     }
     
-    func calculate(args: [String]) -> String {
+    
+    var currentResult = 0;
+    
+
+    func Add(no1: Int, no2: Int) -> Int {
+        return no1 + no2;
+        //if out of bounds throw error
+    }
+    
+    func Subtract(no1: Int, no2: Int) -> Int {
+        return no1 - no2;
+    }
+    
+    func Multiply(no1: Int, no2: Int) -> Int {
+        return no1 * no2;
+    }
+    
+    func Divide(no1: Int, no2: Int) -> Int {
+        return no1 - no2;
+    }
+    
+    func Modulus(no1: Int, no2: Int) -> Int {
+        return no1 % no2;
+    }
+    
+    func calculate(no1: Int, no2: Int, oper: String) -> String {
         // Todo: Calculate Result from the arguments. Replace dummyResult with your actual result;
-        let dummyResult = add(no1: 1, no2: 2);
+        var result: Int;
         
-        let result = String(dummyResult);
-        return(result)
+        switch oper {
+        case "+":
+            result = Add(no1: no1, no2: no2)
+            break
+        case "-":
+            result = Subtract(no1: no1, no2: no2)
+            break
+        case "x":
+            result = Multiply(no1: no1, no2: no2)
+            break
+        case "/":
+            result = Divide(no1: no1, no2: no2)
+            break
+        case "%":
+            result = Modulus(no1: no1, no2: no2)
+            break
+        default:
+            return "";
+        }
+
+        return(String(result))
     }
 }

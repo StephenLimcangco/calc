@@ -10,63 +10,83 @@ import Foundation
 
 class Calculator {
     
-    var numberArray: [Int] = []
-    var operatorArray: [String] = []
+    var op: String
+    var num1: Int
+    var num2: Int
+    var pos = 0
     
-    init(numberArray:[Int], operatorArray:[String]){
-        self.numberArray = numberArray
-        self.operatorArray = operatorArray
-    }
-    
-    
-    var currentResult = 0;
-    
-
-    func Add(no1: Int, no2: Int) -> Int {
-        return no1 + no2;
-        //if out of bounds throw error
-    }
-    
-    func Subtract(no1: Int, no2: Int) -> Int {
-        return no1 - no2;
-    }
-    
-    func Multiply(no1: Int, no2: Int) -> Int {
-        return no1 * no2;
-    }
-    
-    func Divide(no1: Int, no2: Int) -> Int {
-        return no1 - no2;
-    }
-    
-    func Modulus(no1: Int, no2: Int) -> Int {
-        return no1 % no2;
-    }
-    
-    func calculate(no1: Int, no2: Int, oper: String) -> String {
-        // Todo: Calculate Result from the arguments. Replace dummyResult with your actual result;
-        var result: Int;
+    init(args: [String]){
         
-        switch oper {
+        if let unwrappednum1 = Int(args[pos]){
+            num1 = unwrappednum1
+        } else {
+            exit(1)
+        }
+        
+        if let unwrappednum2 = Int(args[pos]){
+            num2 = unwrappednum2
+        } else {
+            exit(1)
+        }
+        
+        op = args[num1 + 1]
+        
+        if !isOpPref(){
+            choosePair(args:args)
+        }
+    }
+    
+    func choosePair(args: [String]){
+        
+        while pos < args.count-3 && !isOpPref(){
+            pos += 2
+            
+            num1 = Int(args[pos])!
+            op = args[pos + 1]
+            num2 = Int(args[pos + 2])!
+        }
+        
+        if pos == args.count-3 && !isOpPref(){
+            pos = 0
+            num1 = Int(args[0])!
+            op = args[1]
+            num2 = Int(args[2])!
+        }
+    }
+
+    func calculate() -> (number: Int?, position: Int){
+        
+        var result: Int
+        
+        switch op {
         case "+":
-            result = Add(no1: no1, no2: no2)
+            result = num1 + num2
             break
         case "-":
-            result = Subtract(no1: no1, no2: no2)
+            result = num1 - num2
             break
         case "x":
-            result = Multiply(no1: no1, no2: no2)
+            result = num1 * num2
             break
         case "/":
-            result = Divide(no1: no1, no2: no2)
+            result = num1 / num2
             break
         case "%":
-            result = Modulus(no1: no1, no2: no2)
+            result = num1 % num2
             break
         default:
-            return "";
+            result = 0
+            //error message
         }
-
-        return(String(result))
+        return(result, pos)
+    }
+    
+    func isOpPref() -> Bool {
+        switch op{
+        case "x", "/", "%":
+            return true
+        default:
+            return false
+        }
     }
 }

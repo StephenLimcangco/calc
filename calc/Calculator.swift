@@ -13,23 +13,24 @@ class Calculator {
     var op: String
     var num1: Int
     var num2: Int
-    var pos = 0
+    var position = 0
     
     init(args: [String]){
         
-        if let unwrappednum1 = Int(args[pos]){
+        if let unwrappednum1 = Int(args[position]){
             num1 = unwrappednum1
         } else {
             exit(1)
         }
         
-        if let unwrappednum2 = Int(args[pos]){
+        op = args[position + 1]
+        
+        if let unwrappednum2 = Int(args[position + 2]){
             num2 = unwrappednum2
         } else {
             exit(1)
         }
         
-        op = args[num1 + 1]
         
         if !isOpPref(){
             choosePair(args:args)
@@ -38,16 +39,16 @@ class Calculator {
     
     func choosePair(args: [String]){
         
-        while pos < args.count-3 && !isOpPref(){
-            pos += 2
+        while position < args.count-3 && !isOpPref(){
+            position += 2
             
-            num1 = Int(args[pos])!
-            op = args[pos + 1]
-            num2 = Int(args[pos + 2])!
+            num1 = Int(args[position])!
+            op = args[position + 1]
+            num2 = Int(args[position + 2])!
         }
         
-        if pos == args.count-3 && !isOpPref(){
-            pos = 0
+        if position == args.count-3 && !isOpPref(){
+            position = 0
             num1 = Int(args[0])!
             op = args[1]
             num2 = Int(args[2])!
@@ -69,20 +70,29 @@ class Calculator {
             result = num1 * num2
             break
         case "/":
+            if num2 == 0{
+            exit(2)
+            }
             result = num1 / num2
             break
         case "%":
+            if num2 == 0{
+            exit(2)
+            }
             result = num1 % num2
             break
         default:
             result = 0
             //error message
         }
-        return(result, pos)
+        
+        return(result, position)
     }
     
     func isOpPref() -> Bool {
         switch op{
+        case "+", "-":
+            return false
         case "x", "/", "%":
             return true
         default:

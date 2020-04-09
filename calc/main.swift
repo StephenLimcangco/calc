@@ -18,7 +18,7 @@ var result: (value: Int?, position: Int) = (0,0)
 
 if(args.count % 2 == 0){
     
-    print("incompleteexpression")
+    print("incomplete expression")
        exit(2)
    }
 
@@ -36,7 +36,7 @@ if(args.count % 2 == 0){
        }
 
 if (args.count == 1){
-      exit(2)
+      print(Int(args[0])!)
 }
 
 

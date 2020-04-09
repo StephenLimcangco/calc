@@ -62,28 +62,26 @@ class Calculator {
         switch op {
         case "+":
             result = num1 + num2
-            break
         case "-":
             result = num1 - num2
-            break
         case "x":
             result = num1 * num2
-            break
         case "/":
             if num2 == 0{
             exit(2)
             }
             result = num1 / num2
-            break
         case "%":
             if num2 == 0{
             exit(2)
             }
             result = num1 % num2
-            break
         default:
-            result = 0
-            //error message
+            exit(2)
+        }
+        
+        if result > Int32.max || result < Int32.min {
+            exit(2)
         }
         
         return(result, position)

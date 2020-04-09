@@ -11,46 +11,42 @@ import Foundation
 var args = ProcessInfo.processInfo.arguments
 args.removeFirst() // remove the name of the program
 
-var result: (value: Int?, position: Int) = (0,0)
+var result: (value: Int?, position: Int) = (0,0) // stores the value and position of the result
 
+//checks if the arguments are complete
 if (args.count % 2 == 0) {
     print("Input error: incomplete expression")
     exit(1)
 }
 
-if (args.count == 1 && Int(args[0]) == nil) {
-    print("Input error: input is not a number")
-    exit(1)
-}
-
-for index in stride(from: 0, to: args.count - 2, by:2) {
-    if Int(args[index]) == nil {
-        print("Input error: input is not an integer")
-        exit(1)
-    }
-}
-
+// checks if input is singular
 if (args.count == 1) {
     print(Int(args[0])!)
 }
 
+// keeps iterating through args array until calculation is complete
 if (args.count > 2) {
     while (args.count > 2) {
         
         (result.value, result.position) = Calculator(args:args).calculate()
         
+        //calculation is complete :: no more iterations
         if (result.position == 0 && args.count == 3) {
             args = [String(result.value!)]
             
+        // removes the first pair of ints with highest operator precedence from the array and replaces it with the result
+            
+        // if result is on the left
         } else if (result.position == 0 && args.count > 3) {
             args = [String(result.value!)] + args[result.position + 3...args.count - 1]
-            
+        // if result is in the middle
         } else if (result.position > 0 && result.position < args.count - 3) {
             args = Array(args[0...result.position - 1] + [String(result.value!)] + args[result.position + 3...args.count - 1])
-            
+        // if result is on the right
         } else {
             args = args[0...result.position - 1] + [String(result.value!)]
         }
     }
+    // print final result
     print (String(result.value!))
 }
